@@ -1,0 +1,240 @@
+// Checkboxes and radios
+// Usage:
+// <label class="{radio|checkbox}" for="element-id">
+//   <input type="{radio|checkbox}" value="the value" id="element-id" name="fieldName"/>
+//   <span class="label-text">Label text</span>
+//   <span class="indicator"></span>
+// </label>
+
+.checkbox,
+.radio {
+  display: block;
+  justify-content: center;
+  position: relative;
+  border-radius: $radius;
+  color: $gray;
+  background-color: $white;
+  border: 1px solid $border-color;
+  height: 6rem;
+  padding: 1rem 2rem 1rem 3rem;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 1.4rem;
+  transition: border-color 0.2s ease-in-out;
+
+  &.is-small {
+    .label-text {
+      font-size: 1.4rem;
+    }
+  }
+
+  &.is-borderless {
+    border-color: transparent;
+  }
+
+  &.is-disabled,
+  &[disabled] {
+    cursor: not-allowed;
+    background-color: $border-color;
+    pointer-events: none;
+
+    > input[type='checkbox'],
+    > input[type='radio'] {
+      pointer-events: none !important;
+    }
+
+    > .indicator {
+      background-color: darken($gray, 10%);
+    }
+
+    > input[type='checkbox']:checked ~ .indicator {
+      background-color: darken($gray, 5%);
+    }
+  }
+
+  &.is-active {
+    border-color: $primary;
+  }
+
+  &.has-error {
+    border-color: $red;
+
+    &:hover {
+      border-color: $red;
+    }
+  }
+
+  &:hover {
+    border-color: $primary;
+  }
+
+  > input[type='checkbox'],
+  > input[type='radio'] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  > .indicator {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 1rem;
+    height: 2rem;
+    width: 2rem;
+    background-color: $white;
+    border-radius: $radius / 2;
+    border: 1px solid $primary;
+    transition: background-color 0.2s ease-in-out;
+
+    &:after {
+      content: '';
+      position: absolute;
+      display: none;
+    }
+  }
+
+  &:hover > input[type='checkbox'] ~ .indicator,
+  &:hover > input[type='radio'] ~ .indicator,
+  &.is-active > input[type='radio'] ~ .indicator {
+    background-color: rgba($primary, 33%);
+  }
+
+  > input[type='checkbox']:checked ~ .indicator,
+  > input[type='radio']:checked ~ .indicator,
+  &.is-active > input[type='radio'] ~ .indicator {
+    &:after {
+      display: block;
+    }
+  }
+
+  > input[type='checkbox']:checked ~ .indicator,
+  &.is-active > input[type='checkbox'] ~ .indicator {
+    background-color: $primary;
+  }
+
+  > input[type='radio']:checked ~ .indicator,
+  &.is-active > input[type='radio'] ~ .indicator {
+    background-color: $white;
+  }
+
+  &:hover > input[type='checkbox']:checked ~ .indicator,
+  &.is-active:hover > input[type='checkbox'] ~ .indicator {
+    background-color: darken($primary, 10%);
+  }
+
+  &:hover > input[type='radio']:checked ~ .indicator,
+  &.is-active:hover > input[type='radio'] ~ .indicator {
+    background-color: darken($white, 10%);
+  }
+
+  > input[type='checkbox']:checked ~ .label-text,
+  &.is-active > input[type='checkbox'] ~ .label-text,
+  > input[type='radio']:checked ~ .label-text,
+  &.is-active > input[type='radio'] ~ .label-text {
+    color: $black;
+    font-weight: 600;
+  }
+
+  > .label-text {
+    font-weight: 400;
+    font-size: 1.2rem;
+
+    @media ($tablet) {
+      font-size: 1.4rem;
+    }
+  }
+}
+
+.checkbox {
+  > .indicator {
+    &:after {
+      left: 0.5rem;
+      top: 1px;
+      width: 0.5rem;
+      height: 1rem;
+      border: solid $white;
+      border-width: 0 3px 3px 0;
+      transform: rotate(45deg);
+    }
+  }
+
+  &.is-disabled,
+  &[disabled] {
+    > .indicator {
+      &:after {
+        border-color: darken($white, 5%);
+      }
+    }
+  }
+}
+
+.radio {
+  > .indicator {
+    border-radius: 50%;
+    &:after {
+      top: 3px;
+      left: 3px;
+      width: 1.2rem;
+      height: 1.2rem;
+      border-radius: 50%;
+      background-color: $primary;
+    }
+  }
+
+  &.is-disabled,
+  &[disabled] {
+    > .indicator {
+      &:after {
+        background-color: darken($gray, 5%);
+      }
+    }
+  }
+}
+
+.checkbox-group,
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+
+  .checkbox,
+  .radio,
+  .checkbox-group-spacer,
+  .radio-group-spacer {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+
+    @media ($tablet) {
+      margin-right: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+
+    > .label-text {
+      padding-left: 1rem;
+      line-height: 1.7;
+      font-size: 1.2rem;
+
+      @media ($tablet) {
+        font-size: 1.4rem;
+      }
+    }
+  }
+}
