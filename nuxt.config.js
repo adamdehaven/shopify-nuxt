@@ -54,20 +54,9 @@ export default {
   modules: ['@nuxt/content', 'nuxt-shopify'],
 
   shopify: {
-    /**
-     * Your shopify domain
-     */
     domain: process.env.NUXT_ENV_SHOPIFY_DOMAIN,
-    /**
-     * Your shopify storefront access token
-     */
     storefrontAccessToken: process.env.NUXT_ENV_SHOPIFY_STOREFRONT_ACCESS_TOKEN,
-    /**
-     * This will be larger than the optimized version, as it will contain all fields that are available in the
-     * Storefront API. (https://help.shopify.com/en/api/custom-storefronts/storefront-api/reference)
-     * This should only be used when you need to add custom queries to supplement the JS Buy SDK queries.
-     */
-    unoptimized: false,
+    unoptimized: true, // If you need to access Shopify Pages set to true, otherwise set to false (default)
   },
 
   // Content module configuration: https://go.nuxtjs.dev/config-content
@@ -94,6 +83,12 @@ export default {
       },
     },
     liveEdit: false,
+  },
+
+  loading: {
+    color: '#f77f00',
+    continuous: true,
+    // throttle: 0,
   },
 
   router: {

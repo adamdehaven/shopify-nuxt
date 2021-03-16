@@ -9,7 +9,7 @@
           <h2>Products</h2>
           <div v-if="products && products.length" class="is-row">
             <div v-for="product in products" :key="product.id" class="is-col is-one-third">
-              <div class="box">
+              <div class="box product">
                 <div v-if="product.images && product.images.length" class="is-row">
                   <div class="is-col">
                     <figure class="image">
@@ -20,7 +20,8 @@
                 <div class="is-row">
                   <div class="is-col">
                     <p>
-                      <b>{{ product.title }}</b> <br /><small v-if="product.vendor">{{ product.vendor }} </small>
+                      <NuxtLink :to="`/products/${product.handle}/`">{{ product.title }}</NuxtLink>
+                      <br /><small v-if="product.vendor">{{ product.vendor }} </small>
                     </p>
                   </div>
                 </div>
@@ -42,18 +43,23 @@ export default {
     }
   },
   async fetch() {
-    const products = await this.$shopify.product
-      .fetchAll()
-      .then((products) => {
-        this.products = products
-      })
-      .catch((error) => {
-        this.products = null
-        console.log('products', error)
-      })
+    const products = await this.$shopify.product.fetchAll(250).then((products) => {
+      this.products = products
+    })
   },
-  fetchOnServer: false,
   fetchKey: 'homepage-products',
-  // fetchDelay: 5000,
+  mounted() {
+    this.$fetch()
+  },
 }
 </script>
+
+<style lang="scss">
+.product {
+  .image img {
+    width: auto !important;
+    max-height: 200px;
+    margin: 0 auto;
+  }
+}
+</style>
