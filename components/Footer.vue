@@ -17,9 +17,9 @@ export default {
 
 <style lang="scss">
 .footer {
-  color: $black;
-  background-color: $white;
-  border-top: 1px solid $black;
+  color: $white;
+  background-color: $black;
+  border-top: 1px solid $white;
   margin: 0;
   padding: 3rem 1.5rem;
   font-size: 1.2rem;

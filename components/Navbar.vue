@@ -16,9 +16,7 @@
       </div>
 
       <div id="main-nav" class="navbar-menu" :class="{ 'is-active': mobileMenuIsActive }">
-        <div class="navbar-start">
-          <NuxtLink to="/#features" class="navbar-item" @click.native="setMobileMenuActive(false)">Features</NuxtLink>
-        </div>
+        <div class="navbar-start"></div>
 
         <div class="navbar-end"></div>
       </div>
