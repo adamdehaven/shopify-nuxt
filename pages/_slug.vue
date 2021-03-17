@@ -45,8 +45,16 @@ export default {
     this.pageData = page
   },
   fetchKey: 'dynamic-page',
-  mounted() {
-    this.$fetch()
+  activated() {
+    this.refresh()
+  },
+  methods: {
+    refresh() {
+      // Call fetch again if last fetch more than 4 minutes ago
+      if (this.$fetchState.timestamp <= Date.now() - 240000) {
+        this.$fetch()
+      }
+    },
   },
 }
 </script>
