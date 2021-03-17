@@ -15,39 +15,25 @@
 
 <script>
 export default {
-  name: 'About',
+  name: 'DynamicPage',
+  middleware: 'shopify-dynamic-pages',
   data() {
     return {
       pageData: null,
     }
   },
-  // Working, but better solution below
-  // async fetch() {
-  //   const query = this.$shopify.graphQLClient.query((root) => {
-  //     root.addConnection('pages', { args: { first: 1 } }, (page) => {
-  //       page.add('id')
-  //       page.add('title')
-  //       page.add('handle')
-  //       page.add('updatedAt')
-  //       page.add('body')
-  //     })
-  //   })
-
-  //   let page = await this.$shopify.graphQLClient.send(query).then(({ data }) => {
-  //     let { node } = data.pages.edges[0]
-  //     return node
-  //   })
-
-  //   this.pageData = page
-  // },
+  async asyncData(context) {
+    console.log(context)
+  },
   async fetch() {
+    const handleFromRoute = this.$route.path.replace(/\//g, '')
     const query = this.$shopify.graphQLClient.query((root) => {
-      root.add('pageByHandle', { args: { handle: 'about-page' } }, (page) => {
-        page.add('body')
-        page.add('id')
+      root.add('pageByHandle', { args: { handle: handleFromRoute } }, (page) => {
         page.add('title')
         page.add('handle')
+        page.add('body')
         page.add('updatedAt')
+        page.add('id')
       })
     })
 
@@ -58,7 +44,7 @@ export default {
 
     this.pageData = page
   },
-  fetchKey: 'about-page',
+  fetchKey: 'dynamic-page',
   mounted() {
     this.$fetch()
   },
