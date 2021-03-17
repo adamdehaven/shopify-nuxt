@@ -4,7 +4,7 @@
       <div class="navbar-brand">
         <NuxtLink class="navbar-item is-unselectable site-logo" to="/" exact>Shopify Nuxt</NuxtLink>
         <div
-          class="navbar-burger ml-0"
+          class="navbar-burger"
           data-target="main-nav"
           :class="{ 'is-active': mobileMenuIsActive }"
           @click.prevent="setMobileMenuActive(!mobileMenuIsActive)"
