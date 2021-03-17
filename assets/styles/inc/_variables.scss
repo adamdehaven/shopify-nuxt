@@ -4,7 +4,7 @@ $red: #d62828;
 $blue: #3c91e6;
 $gray: #7c7c7c;
 $gray-light: #d5d0cd;
-$border-color: darken($gray-light, 10%);
+$border-color: $gray-light;
 $black: #000000;
 $white: #ffffff;
 
