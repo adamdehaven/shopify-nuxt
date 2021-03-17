@@ -54,10 +54,15 @@ export default {
   },
   fetchKey: 'product-page',
   activated() {
-    // Call fetch again if last fetch more than 4 minutes ago
-    if (this.$fetchState.timestamp <= Date.now() - 240000) {
-      this.$fetch()
-    }
+    this.refresh()
+  },
+  methods: {
+    refresh() {
+      // Call fetch again if last fetch more than 4 minutes ago
+      if (this.$fetchState.timestamp <= Date.now() - 240000) {
+        this.$fetch()
+      }
+    },
   },
 }
 </script>
