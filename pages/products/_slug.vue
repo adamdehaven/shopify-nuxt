@@ -2,7 +2,7 @@
   <div class="page page-homepage">
     <section class="section is-fullwidth-container">
       <div class="container">
-        <!-- products -->
+        <!-- product -->
         <div class="is-row is-centered">
           <div v-if="product" class="is-col is-half">
             <div class="box">
@@ -32,24 +32,32 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
   name: 'Product',
-  // Initial server fetch
-  async asyncData({ $shopify, route, error }) {
-    const product = await $shopify.product.fetchByHandle(route.params.slug).catch((err) => {
-      return error({ statusCode: 404, message: 'Product not found' })
-    })
-
-    return { product }
-  },
+  middleware: 'shopify-products',
   async fetch() {
-    const product = await this.$shopify.product.fetchByHandle(this.$route.params.slug).then((product) => {
-      this.product = product
+    await this.fetchAllProducts().then(() => {
+      console.log('fetchAllProducts complete')
     })
   },
   fetchOnServer: false,
   fetchKey() {
     return 'product-page-' + this.$route.params.slug
+  },
+  computed: {
+    ...mapGetters({
+      productData: 'products/product',
+    }),
+    product() {
+      return this.productData(this.$route.params.slug)
+    },
+  },
+  methods: {
+    ...mapActions({
+      fetchAllProducts: 'products/fetchAllProducts',
+    }),
   },
 }
 </script>

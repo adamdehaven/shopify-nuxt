@@ -9,9 +9,11 @@
             <div class="box product">
               <div v-if="product.images && product.images.length" class="is-row">
                 <div class="is-col">
-                  <figure class="image">
-                    <img :src="product.images[0].src" :alt="product.description" />
-                  </figure>
+                  <NuxtLink :to="`/products/${product.handle}/`">
+                    <figure class="image">
+                      <img :src="product.images[0].src" :alt="product.description" />
+                    </figure>
+                  </NuxtLink>
                 </div>
               </div>
               <div class="is-row">
@@ -36,22 +38,28 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'Homepage',
-  // Initial server fetch
-  async asyncData({ $shopify }) {
-    const products = await $shopify.product.fetchAll(250)
-
-    return { products }
-  },
   // Fetch again on client-side in case there are updates
   async fetch() {
-    const products = await this.$shopify.product.fetchAll(250).then((products) => {
-      this.products = products
+    await this.fetchAllProducts().then(() => {
+      console.log('fetchAllProducts complete')
     })
   },
   fetchOnServer: false,
   fetchKey: 'homepage-products',
+  computed: {
+    products() {
+      return this.$store.state.products.allProducts
+    },
+  },
+  methods: {
+    ...mapActions({
+      fetchAllProducts: 'products/fetchAllProducts',
+    }),
+  },
 }
 </script>
 

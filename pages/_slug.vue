@@ -1,11 +1,11 @@
 <template>
-  <div class="page page-about">
+  <div class="page" :class="['page-' + page.handle]">
     <section class="section is-fullwidth-container">
       <div class="container">
-        <div v-if="pageData" class="is-row">
+        <div v-if="page" class="is-row">
           <div class="is-col">
-            <h1>{{ pageData.title }}</h1>
-            <div class="content" v-html="pageData.body"></div>
+            <h1>{{ page.title }}</h1>
+            <div class="content" v-html="page.body"></div>
           </div>
         </div>
       </div>
@@ -14,52 +14,32 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
   name: 'DynamicPage',
   middleware: 'shopify-dynamic-pages',
-  // Initial server fetch
-  async asyncData({ $shopify, route }) {
-    const handleFromRoute = route.path.replace(/\//g, '')
-    const query = $shopify.graphQLClient.query((root) => {
-      root.add('pageByHandle', { args: { handle: handleFromRoute } }, (page) => {
-        page.add('title')
-        page.add('handle')
-        page.add('body')
-        page.add('updatedAt')
-        page.add('id')
-      })
-    })
-
-    let pageData = await $shopify.graphQLClient.send(query).then(({ data }) => {
-      let { pageByHandle } = data
-      return pageByHandle
-    })
-
-    return { pageData }
-  },
-  // Fetch again on client-side in case there are updates
   async fetch() {
-    const handleFromRoute = this.$route.path.replace(/\//g, '')
-    const query = this.$shopify.graphQLClient.query((root) => {
-      root.add('pageByHandle', { args: { handle: handleFromRoute } }, (page) => {
-        page.add('title')
-        page.add('handle')
-        page.add('body')
-        page.add('updatedAt')
-        page.add('id')
-      })
+    await this.fetchAllPages().then(() => {
+      console.log('fetchAllPages complete')
     })
-
-    let page = await this.$shopify.graphQLClient.send(query).then(({ data }) => {
-      let { pageByHandle } = data
-      return pageByHandle
-    })
-
-    this.pageData = page
   },
   fetchOnServer: false,
   fetchKey() {
-    return 'dynamic-page-' + this.$route.path.replace(/\//g, '')
+    return 'dynamic-page-' + this.$route.params.slug
+  },
+  computed: {
+    page() {
+      return this.pageData(this.$route.params.slug)
+    },
+    ...mapGetters({
+      pageData: 'pages/page',
+    }),
+  },
+  methods: {
+    ...mapActions({
+      fetchAllPages: 'pages/fetchAllPages',
+    }),
   },
 }
 </script>
