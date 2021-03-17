@@ -44,7 +44,9 @@ export default {
 
     this.pageData = page
   },
-  fetchKey: 'dynamic-page',
+  fetchKey() {
+    return 'dynamic-page-' + this.$route.path.replace(/\//g, '')
+  },
   activated() {
     this.refresh()
   },
