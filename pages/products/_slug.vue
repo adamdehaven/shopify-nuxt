@@ -52,7 +52,9 @@ export default {
         console.log('product', error)
       })
   },
-  fetchKey: 'product-page',
+  fetchKey() {
+    return 'product-page-' + this.$route.params.slug
+  },
   activated() {
     this.refresh()
   },
