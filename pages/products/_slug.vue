@@ -3,9 +3,7 @@
     <section class="section is-fullwidth-container">
       <div class="container">
         <!-- products -->
-        <p v-if="$fetchState.pending">Fetching product...</p>
-        <p v-else-if="$fetchState.error">An error occurred while fetching the product.</p>
-        <div v-else class="is-row is-centered">
+        <div class="is-row is-centered">
           <div v-if="product" class="is-col is-half">
             <div class="box">
               <div v-if="product.images && product.images.length" class="is-row">
@@ -36,35 +34,22 @@
 <script>
 export default {
   name: 'Product',
-  data() {
-    return {
-      product: null,
-    }
+  // Initial server fetch
+  async asyncData({ $shopify, route, error }) {
+    const product = await $shopify.product.fetchByHandle(route.params.slug).catch((err) => {
+      return error({ statusCode: 404, message: 'Product not found' })
+    })
+
+    return { product }
   },
   async fetch() {
-    const product = await this.$shopify.product
-      .fetchByHandle(this.$route.params.slug)
-      .then((product) => {
-        this.product = product
-      })
-      .catch((error) => {
-        this.product = null
-        console.log('product', error)
-      })
+    const product = await this.$shopify.product.fetchByHandle(this.$route.params.slug).then((product) => {
+      this.product = product
+    })
   },
+  fetchOnServer: false,
   fetchKey() {
     return 'product-page-' + this.$route.params.slug
-  },
-  activated() {
-    this.refresh()
-  },
-  methods: {
-    refresh() {
-      // Call fetch again if last fetch more than 4 minutes ago
-      if (this.$fetchState.timestamp <= Date.now() - 240000) {
-        this.$fetch()
-      }
-    },
   },
 }
 </script>

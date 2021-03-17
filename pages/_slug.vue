@@ -17,14 +17,27 @@
 export default {
   name: 'DynamicPage',
   middleware: 'shopify-dynamic-pages',
-  data() {
-    return {
-      pageData: null,
-    }
+  // Initial server fetch
+  async asyncData({ $shopify, route }) {
+    const handleFromRoute = route.path.replace(/\//g, '')
+    const query = $shopify.graphQLClient.query((root) => {
+      root.add('pageByHandle', { args: { handle: handleFromRoute } }, (page) => {
+        page.add('title')
+        page.add('handle')
+        page.add('body')
+        page.add('updatedAt')
+        page.add('id')
+      })
+    })
+
+    let pageData = await $shopify.graphQLClient.send(query).then(({ data }) => {
+      let { pageByHandle } = data
+      return pageByHandle
+    })
+
+    return { pageData }
   },
-  async asyncData(context) {
-    console.log(context)
-  },
+  // Fetch again on client-side in case there are updates
   async fetch() {
     const handleFromRoute = this.$route.path.replace(/\//g, '')
     const query = this.$shopify.graphQLClient.query((root) => {
@@ -44,19 +57,9 @@ export default {
 
     this.pageData = page
   },
+  fetchOnServer: false,
   fetchKey() {
     return 'dynamic-page-' + this.$route.path.replace(/\//g, '')
-  },
-  activated() {
-    this.refresh()
-  },
-  methods: {
-    refresh() {
-      // Call fetch again if last fetch more than 4 minutes ago
-      if (this.$fetchState.timestamp <= Date.now() - 240000) {
-        this.$fetch()
-      }
-    },
   },
 }
 </script>
