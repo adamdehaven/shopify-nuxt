@@ -39,9 +39,18 @@ export default {
   name: 'Product',
   middleware: 'shopify-products',
   async fetch() {
-    await this.fetchAllProducts().catch((error) => {
-      console.error('fetchAllProducts: %o', error)
-    })
+    return await this.$shopify.product
+      .fetchByHandle(this.$route.params.handle)
+      .then((product) => {
+        if (!product) {
+          return error({ statusCode: 404, message: 'Product not found' })
+        }
+
+        this.setProduct(product)
+      })
+      .catch((err) => {
+        return error({ statusCode: 403, message: 'Product does not have Storefront Permissions' })
+      })
   },
   fetchOnServer: false,
   fetchKey() {
@@ -58,6 +67,7 @@ export default {
   methods: {
     ...mapActions({
       fetchAllProducts: 'products/fetchAllProducts',
+      setProduct: 'products/setProduct',
     }),
   },
 }

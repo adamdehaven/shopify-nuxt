@@ -32,4 +32,25 @@ export const actions = {
       commit('setLastFetched', Date.now())
     })
   },
+  async setProduct({ commit, state }, product) {
+    // Boolean if item was replaced
+    let replaced = false
+    // Find existing product, and replace it
+    let allProducts = [...state.allProducts].map((p) => {
+      if (p.handle === product.handle) {
+        replaced = true
+        return product
+      } else {
+        return p
+      }
+    })
+
+    // Item was not replaced, so it wasn't in array. Add to allProducts
+    if (!replaced) {
+      allProducts.push(product)
+    }
+
+    // Update store
+    commit('setAllProducts', allProducts)
+  },
 }

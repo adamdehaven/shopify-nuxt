@@ -42,9 +42,8 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'Homepage',
-  // Fetch again on client-side in case there are updates
   async fetch() {
-    await this.fetchAllProducts().catch((error) => {
+    return await this.fetchAllProducts().catch((error) => {
       console.error('fetchAllProducts: %o', error)
     })
   },
