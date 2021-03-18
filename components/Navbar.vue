@@ -3,8 +3,16 @@
     <div class="container">
       <div class="navbar-brand">
         <NuxtLink class="navbar-item is-unselectable site-logo" to="/" exact>Shopify Nuxt</NuxtLink>
+
+        <a href="#" class="navbar-item is-hidden-tablet is-hidden-tablet-wide is-hidden-desktop ml-auto">
+          <span class="icon">
+            <v-icon name="shopping-cart" scale="1.5"></v-icon>
+          </span>
+          <span class="cart-count">{{ checkoutCount }}</span>
+        </a>
+
         <div
-          class="navbar-burger"
+          class="navbar-burger ml-0"
           data-target="main-nav"
           :class="{ 'is-active': mobileMenuIsActive }"
           @click.prevent="setMobileMenuActive(!mobileMenuIsActive)"
@@ -21,7 +29,14 @@
           <NuxtLink to="/features/" class="navbar-item">Features</NuxtLink>
         </div>
 
-        <div class="navbar-end"></div>
+        <div class="navbar-end">
+          <a href="#" class="navbar-item is-hidden-mobile">
+            <span class="icon">
+              <v-icon name="shopping-cart" scale="1.5"></v-icon>
+            </span>
+            <span class="cart-count">{{ checkoutCount }}</span>
+          </a>
+        </div>
       </div>
     </div>
   </nav>
@@ -41,6 +56,11 @@ export default {
   computed: {
     mobileMenuIsActive() {
       return this.$store.state.navbar.mobileMenuIsActive
+    },
+    checkoutCount() {
+      let lineItems = this.$store.state.checkout.checkout.lineItems
+      let sum = lineItems.reduce((accumulator, item) => accumulator + item.quantity, 0)
+      return sum ? (sum >= 99 ? '99+' : sum) : 0
     },
   },
   watch: {

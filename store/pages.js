@@ -14,6 +14,7 @@ export const mutations = {
   setAllPages(state, allPages) {
     state.allPages = [...allPages]
   },
+
   setLastFetched(state, timestamp) {
     state.lastFetched = timestamp
   },

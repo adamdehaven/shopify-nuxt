@@ -31,7 +31,7 @@
             <h1>{{ product.title }}</h1>
             <div v-html="product.descriptionHtml"></div>
             <br />
-            <button class="button is-primary is-fullwidth">Add to cart</button>
+            <button @click.prevent="addToCart" class="button is-primary is-fullwidth">Add to cart</button>
           </div>
         </div>
 
@@ -80,6 +80,9 @@ export default {
       fetchAllProducts: 'products/fetchAllProducts',
       setProduct: 'products/setProduct',
     }),
+    addToCart() {
+      console.log('add to cart')
+    },
   },
 }
 </script>

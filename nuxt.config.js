@@ -42,7 +42,12 @@ export default {
   css: ['~/assets/styles/app'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/router-guards.js', '~/plugins/vue-inline-svg.js', '~/plugins/vue-awesome.js'],
+  plugins: [
+    '~/plugins/router-guards.js',
+    '~/plugins/checkout.js',
+    '~/plugins/vue-inline-svg.js',
+    '~/plugins/vue-awesome.js',
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -51,7 +56,7 @@ export default {
   buildModules: ['@nuxtjs/style-resources'],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['nuxt-shopify'],
+  modules: ['nuxt-shopify', 'cookie-universal-nuxt'],
 
   shopify: {
     domain: process.env.NUXT_ENV_SHOPIFY_DOMAIN,
@@ -66,6 +71,7 @@ export default {
   },
 
   router: {
+    middleware: 'checkout',
     linkActiveClass: 'nuxt-link-active',
     linkExactActiveClass: 'nuxt-link-exact-active is-active-exact',
     trailingSlash: true,

@@ -14,6 +14,7 @@ export const mutations = {
   setAllProducts(state, allProducts) {
     state.allProducts = [...allProducts]
   },
+
   setLastFetched(state, timestamp) {
     state.lastFetched = timestamp
   },
@@ -32,6 +33,7 @@ export const actions = {
       commit('setLastFetched', Date.now())
     })
   },
+
   async setProduct({ commit, state }, product) {
     // Boolean if item was replaced
     let replaced = false
