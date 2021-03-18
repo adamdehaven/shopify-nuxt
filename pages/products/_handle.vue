@@ -5,7 +5,7 @@
         <!-- product -->
         <div v-if="product || $fetchState.pending" class="is-row">
           <div v-if="product.images && product.images.length" class="is-col">
-            <figure class="image">
+            <figure class="image product-image">
               <img :src="product.images[0].src" />
             </figure>
             <div class="is-row">
@@ -86,6 +86,12 @@ export default {
 
 <style lang="scss">
 .page-product {
+  .product-image {
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .product-image-thumbnail {
     display: inline-block;
     margin: 0 0 0 2em;
