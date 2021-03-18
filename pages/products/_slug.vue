@@ -3,8 +3,8 @@
     <section class="section is-fullwidth-container">
       <div class="container">
         <!-- product -->
-        <div class="is-row is-centered">
-          <div v-if="product" class="is-col is-half">
+        <div v-if="product" class="is-row is-centered">
+          <div class="is-col is-half">
             <div class="box">
               <div v-if="product.images && product.images.length" class="is-row">
                 <div class="is-col">
@@ -22,10 +22,11 @@
               </div>
             </div>
           </div>
-          <div v-else class="is-col is-half has-text-centered">
-            <p><b>Product not found.</b></p>
-          </div>
         </div>
+
+        <NoContent v-else>
+          <p>Product not found</p>
+        </NoContent>
       </div>
     </section>
   </div>

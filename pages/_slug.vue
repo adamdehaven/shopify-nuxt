@@ -8,6 +8,10 @@
             <div class="content" v-html="page.body"></div>
           </div>
         </div>
+
+        <NoContent v-else>
+          <p>Page not found</p>
+        </NoContent>
       </div>
     </section>
   </div>
