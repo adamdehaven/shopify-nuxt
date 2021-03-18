@@ -44,8 +44,8 @@ export default {
   name: 'Homepage',
   // Fetch again on client-side in case there are updates
   async fetch() {
-    await this.fetchAllProducts().then(() => {
-      console.log('fetchAllProducts complete')
+    await this.fetchAllProducts().catch((error) => {
+      console.error('fetchAllProducts: %o', error)
     })
   },
   fetchOnServer: false,

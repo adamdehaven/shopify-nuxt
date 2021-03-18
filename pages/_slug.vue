@@ -20,8 +20,8 @@ export default {
   name: 'DynamicPage',
   middleware: 'shopify-dynamic-pages',
   async fetch() {
-    await this.fetchAllPages().then(() => {
-      console.log('fetchAllPages complete')
+    await this.fetchAllPages().catch((error) => {
+      console.error('fetchAllPages: %o', error)
     })
   },
   fetchOnServer: false,

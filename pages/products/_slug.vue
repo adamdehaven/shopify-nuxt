@@ -38,8 +38,8 @@ export default {
   name: 'Product',
   middleware: 'shopify-products',
   async fetch() {
-    await this.fetchAllProducts().then(() => {
-      console.log('fetchAllProducts complete')
+    await this.fetchAllProducts().catch((error) => {
+      console.error('fetchAllProducts: %o', error)
     })
   },
   fetchOnServer: false,

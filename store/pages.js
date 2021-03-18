@@ -1,5 +1,7 @@
 export const state = () => ({
   allPages: [],
+  fetchDelay: process.env.NUXT_ENV_SHOPIFY_FETCH_DELAY_MILLISECONDS || 300000, // default 5 minutes
+  lastFetched: null,
 })
 
 export const getters = {
@@ -12,10 +14,18 @@ export const mutations = {
   setAllPages(state, allPages) {
     state.allPages = [...allPages]
   },
+  setLastFetched(state, timestamp) {
+    state.lastFetched = timestamp
+  },
 }
 
 export const actions = {
   async fetchAllPages({ commit }) {
+    // Do not fetch again if last fetch less than fetchDelay time ago
+    if (state.lastFetched > Date.now() - state.fetchDelay) {
+      return
+    }
+
     const allPagesQuery = this.$shopify.graphQLClient.query((root) => {
       root.addConnection('pages', { args: { first: 250 } }, (page) => {
         page.add('title')
