@@ -26,7 +26,7 @@ export const actions = {
       return
     }
 
-    await this.$shopify.product.fetchAll(250).then((products) => {
+    await this.$shopify.product.fetchAll(200).then((products) => {
       commit('setAllProducts', products)
       // Update lastFetched timestamp
       commit('setLastFetched', Date.now())

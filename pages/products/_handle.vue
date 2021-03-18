@@ -1,26 +1,37 @@
 <template>
-  <div class="page page-homepage">
+  <div class="page page-product">
     <section class="section is-fullwidth-container">
       <div class="container">
         <!-- product -->
-        <div v-if="product" class="is-row is-centered">
-          <div class="is-col is-half">
-            <div class="box">
-              <div v-if="product.images && product.images.length" class="is-row">
-                <div class="is-col">
-                  <figure class="image">
-                    <img :src="product.images[0].src" :alt="product.description" />
-                  </figure>
-                </div>
-              </div>
-              <div class="is-row">
-                <div class="is-col">
-                  <p>
-                    <b>{{ product.title }}</b> <br /><small v-if="product.vendor">{{ product.vendor }} </small>
-                  </p>
-                </div>
+        <div v-if="product || $fetchState.pending" class="is-row">
+          <div v-if="product.images && product.images.length" class="is-col">
+            <figure class="image">
+              <img :src="product.images[0].src" />
+            </figure>
+            <div class="is-row">
+              <div class="is-col">
+                <figure v-for="img in product.images" :key="img.id" class="image product-image-thumbnail">
+                  <img :src="img.src" />
+                </figure>
               </div>
             </div>
+          </div>
+          <!-- Product Info (Loading) -->
+          <div v-if="$fetchState.pending" class="is-col">
+            <BaseLoading height="80px"></BaseLoading>
+            <br />
+            <BaseLoading :count="3"></BaseLoading>
+            <br />
+            <BaseLoading :count="4"></BaseLoading>
+            <br />
+            <BaseLoading :count="3"></BaseLoading>
+          </div>
+          <!-- Product Info -->
+          <div v-else class="is-col">
+            <h1>{{ product.title }}</h1>
+            <div v-html="product.descriptionHtml"></div>
+            <br />
+            <button class="button is-primary is-fullwidth">Add to cart</button>
           </div>
         </div>
 
@@ -74,11 +85,11 @@ export default {
 </script>
 
 <style lang="scss">
-.product {
-  .image img {
-    width: auto !important;
-    max-height: 200px;
-    margin: 0 auto;
+.page-product {
+  .product-image-thumbnail {
+    display: inline-block;
+    margin: 0 0 0 2em;
+    max-width: 120px;
   }
 }
 </style>
