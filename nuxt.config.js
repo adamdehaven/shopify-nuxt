@@ -51,38 +51,12 @@ export default {
   buildModules: ['@nuxtjs/style-resources'],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxt/content', 'nuxt-shopify'],
+  modules: ['nuxt-shopify'],
 
   shopify: {
     domain: process.env.NUXT_ENV_SHOPIFY_DOMAIN,
     storefrontAccessToken: process.env.NUXT_ENV_SHOPIFY_STOREFRONT_ACCESS_TOKEN,
     unoptimized: true, // If you need to access Shopify Pages set to true, otherwise set to false (default)
-  },
-
-  // Content module configuration: https://go.nuxtjs.dev/config-content
-  content: {
-    fullTextSearchFields: ['title', 'description', 'slug', 'text'],
-    markdown: {
-      remarkExternalLinks: {
-        target: '_blank',
-        rel: 'noopener',
-      },
-      remarkAutolinkHeadings: {
-        linkProperties: {
-          ariaHidden: 'true',
-          tabIndex: -1,
-          class: 'header-anchor',
-        },
-        // content: {
-        //   type: 'text',
-        //   value: '#',
-        // },
-      },
-      prism: {
-        theme: 'prism-themes/themes/prism-material-oceanic.css',
-      },
-    },
-    liveEdit: false,
   },
 
   loading: {
