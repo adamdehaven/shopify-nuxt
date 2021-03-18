@@ -45,14 +45,14 @@ export default {
   },
   fetchOnServer: false,
   fetchKey() {
-    return 'product-page-' + this.$route.params.slug
+    return 'product-page-' + this.$route.params.handle
   },
   computed: {
     ...mapGetters({
       productData: 'products/product',
     }),
     product() {
-      return this.productData(this.$route.params.slug)
+      return this.productData(this.$route.params.handle)
     },
   },
   methods: {

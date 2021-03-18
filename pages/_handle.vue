@@ -30,11 +30,11 @@ export default {
   },
   fetchOnServer: false,
   fetchKey() {
-    return 'dynamic-page-' + this.$route.params.slug
+    return 'dynamic-page-' + this.$route.params.handle
   },
   computed: {
     page() {
-      return this.pageData(this.$route.params.slug)
+      return this.pageData(this.$route.params.handle)
     },
     ...mapGetters({
       pageData: 'pages/page',
